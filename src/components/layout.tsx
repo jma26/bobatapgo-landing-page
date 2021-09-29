@@ -6,13 +6,36 @@
  */
 
 import * as React from "react"
-import { useStaticQuery, graphql } from "gatsby"
+import { useStaticQuery, graphql } from "gatsby";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
 
 import Header from "./header"
-import "./layout.css"
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#37475D",
+      light: "#37475D",
+      dark: "#00000D",
+      contrastText: "#FFFFFF"
+    },
+    secondary: {
+      main: "#F94E4E",
+      light: "#FF827A",
+      dark: "#BF0525",
+      contrastText: "#FFFFFF"
+    },
+    text: {
+      primary: "#212121",
+      secondary: "#757575",
+    },
+    divider: "#BDBDBD"
+  }
+})
 
 interface LayoutProps {
-  children: ReactNode
+  children: React.ReactNode
 }
 
 const Layout = ({ children }: LayoutProps) => {
@@ -29,27 +52,18 @@ const Layout = ({ children }: LayoutProps) => {
   const siteTitle: string = data.site.siteMetadata?.title || 'Title'
 
   return (
-    <>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
       <Header siteTitle={siteTitle} />
-      <div
-        style={{
-          margin: `0 auto`,
-          maxWidth: 960,
-          padding: `0 1.0875rem 1.45rem`,
-        }}
-      >
+      <div>
         <main>{children}</main>
-        <footer
-          style={{
-            marginTop: `2rem`,
-          }}
-        >
+        <footer>
           © {new Date().getFullYear()}, Built with
           {` `}
           <a href="https://www.gatsbyjs.com">Gatsby</a>
         </footer>
       </div>
-    </>
+    </ThemeProvider>
   )
 }
 
